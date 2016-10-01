@@ -1,0 +1,25 @@
+name: steam_price_fetcher
+version: 0.1.0
+
+authors:
+  - Ivan Arakcheev <wildfiler0@gmail.com>
+
+license: MIT
+
+dependencies:
+  sidekiq:
+    path: ~/Development/gems/sidekiq.cr
+    # github: mperham/sidekiq.cr
+    # branch: master
+development_dependencies:
+  spec2:
+    github: waterlink/spec2.cr
+    version: ~> 0.9
+  mocks:
+    github: waterlink/mocks.cr
+    version: ~> 0.9
+  spec2-mocks:
+    github: waterlink/spec2-mocks.cr
+  webmock:
+    github: manastech/webmock.cr
+    branch: master
