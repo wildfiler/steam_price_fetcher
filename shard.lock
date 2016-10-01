@@ -1,12 +1,36 @@
 version: 1.0
 shards:
+  baked_file_system:
+    github: mperham/baked_file_system
+    commit: f1aeed9b71f2752932e58927df5c065d533b4261
+
+  kemal:
+    github: sdogruyol/kemal
+    version: 0.14.1
+
+  kilt:
+    github: jeromegn/kilt
+    version: 0.3.3
+
   mocks:
     github: waterlink/mocks.cr
     version: 0.9.3
 
+  pool:
+    github: ysbaddaden/pool
+    version: 0.2.3
+
+  radix:
+    github: luislavena/radix
+    version: 0.3.0
+
+  redis:
+    github: stefanwille/crystal-redis
+    version: 1.6.7
+
   sidekiq:
-    path: ~/Development/gems/sidekiq.cr
-    version: 0
+    github: wildfiler/sidekiq.cr
+    commit: 66662dc6ab111ca2a30954da33341c6fdb9d51ef
 
   singleton:
     github: waterlink/singleton.cr

@@ -8,9 +8,9 @@ license: MIT
 
 dependencies:
   sidekiq:
-    path: ~/Development/gems/sidekiq.cr
-    # github: mperham/sidekiq.cr
-    # branch: master
+    # path: ~/Development/gems/sidekiq.cr
+    github: wildfiler/sidekiq.cr
+    branch: fixed
 development_dependencies:
   spec2:
     github: waterlink/spec2.cr
