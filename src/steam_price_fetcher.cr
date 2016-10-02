@@ -1,5 +1,5 @@
 require "./steam_price_fetcher/*"
-require "./price_worker"
+require "./steam_market_price_fetch_job"
 require "sidekiq/cli"
 
 module SteamPriceFetcher

@@ -1,6 +1,6 @@
 require "sidekiq/cli"
 
-class ExportWorker
+class SteamMarketPriceImportJob
   include Sidekiq::Worker
 
   sidekiq_options do |job|
