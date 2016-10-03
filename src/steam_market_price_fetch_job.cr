@@ -12,7 +12,7 @@ class SteamMarketPriceFetchJob
   include Sidekiq::Worker
 
   sidekiq_options do |job|
-    job.queue = "import"
+    job.queue = "fetch"
     job.retry = true
   end
 
