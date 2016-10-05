@@ -3,8 +3,6 @@ require "sidekiq/cli"
 require "redis"
 require "./steam_market_price_import_job"
 
-REDIS = Redis.new
-
 class SteamMarketPriceFetchJob
   URL =
     "http://steamcommunity.com/market/priceoverview/?country=US&currency=1&appid=%{app_id}&market_hash_name=%{name}"
