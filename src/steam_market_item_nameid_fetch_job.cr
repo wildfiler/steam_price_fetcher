@@ -1,6 +1,5 @@
 require "http"
 require "sidekiq/cli"
-require "xml"
 require "./services/steam_request_limiter"
 require "./steam_market_item_nameid_import_job"
 
@@ -21,7 +20,7 @@ class SteamMarketItemNameidFetchJob
 
     nameid_match = response.body.to_s.match(/Market_LoadOrderSpread\( (\d+) \)/m)
 
-    raise "Wtf?" unless nameid_match
+    raise "Item not found in Steam market" unless nameid_match
 
     SteamMarketItemNameidImportJob.async.perform(app_id, item_name, nameid_match[1])
   end
