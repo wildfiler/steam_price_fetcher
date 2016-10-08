@@ -8,7 +8,7 @@ class SteamMarketItemsImportJob
     job.retry = true
   end
 
-  def perform(app_id : String, response : Array(String), status : String)
+  def perform(app_id : String, item_names : Array(String))
     raise "You shall not pass!"
   end
 end
