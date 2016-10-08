@@ -1,5 +1,4 @@
 require "http"
-require "redis"
 
 class SteamRequestLimiter
   def limit : HTTP::Client::Response

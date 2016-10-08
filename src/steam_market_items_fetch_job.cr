@@ -1,6 +1,5 @@
 require "http"
 require "sidekiq/cli"
-require "redis"
 require "xml"
 require "./services/steam_request_limiter"
 require "./steam_market_items_import_job"
