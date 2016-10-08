@@ -22,7 +22,6 @@ class SteamMarketItemsFetchJob
     end
 
     names = get_names(response)
-
     SteamMarketItemsImportJob.async.perform(app_id, names)
   end
 
