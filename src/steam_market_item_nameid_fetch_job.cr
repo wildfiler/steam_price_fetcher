@@ -14,8 +14,10 @@ class SteamMarketItemNameidFetchJob
   end
 
   def perform(app_id : String, item_name : String)
+    escaped_item_name = URI.escape(item_name.gsub("/", "-"), false)
+
     response = SteamRequestLimiter.new.limit do
-      HTTP::Client.get(URL.gsub("%{app_id}", app_id).gsub("%{item_name}", URI.escape(item_name, false)))
+      HTTP::Client.get(URL.gsub("%{app_id}", app_id).gsub("%{item_name}", escaped_item_name))
     end
 
     nameid_match = response.body.to_s.match(/Market_LoadOrderSpread\( (\d+) \)/m)
