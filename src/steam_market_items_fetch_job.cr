@@ -1,7 +1,8 @@
 require "http"
 require "sidekiq/cli"
 require "xml"
-require "./services/steam_request_limiter"
+require "./http_client"
+require "./services/request_retryer"
 require "./steam_market_items_import_job"
 
 class SteamMarketItemsFetchJob
@@ -16,8 +17,10 @@ class SteamMarketItemsFetchJob
   end
 
   def perform(app_id : String, query_start : String)
-    response = SteamRequestLimiter.new.limit do
-      HTTP::Client.get(URL.gsub("%{app_id}", app_id).gsub("%{query_start}", query_start))
+    client = HTTPClient.proxied_client("steamcommunity.com")
+
+    response = RequestRetryer.new.with_retry do
+      client.get(URL.gsub("%{app_id}", app_id).gsub("%{query_start}", query_start))
     end
 
     names = get_names(response)

@@ -1,6 +1,7 @@
 require "http"
 require "sidekiq/cli"
-require "./services/steam_request_limiter"
+require "./http_client"
+require "./services/request_retryer"
 require "./steam_market_orders_details_import_job"
 
 class SteamMarketOrdersDetailsFetchJob
@@ -16,8 +17,10 @@ class SteamMarketOrdersDetailsFetchJob
   def perform(item_nameid : String)
     escaped_url = URL.gsub("%{item_nameid}", item_nameid)
 
-    response = SteamRequestLimiter.new.limit do
-      HTTP::Client.get(escaped_url)
+    client = HTTPClient.proxied_client("steamcommunity.com")
+
+    response = RequestRetryer.new.with_retry do
+      client.get(escaped_url)
     end
 
     response_body = JSON.parse(response.body)
