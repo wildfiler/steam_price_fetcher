@@ -20,45 +20,42 @@ class SteamMarketOrdersDetailsFetchJob
       HTTP::Client.get(escaped_url)
     end
 
-    highest_buy_order = get_highest_buy_order(response)
-    lowest_sell_order = get_lowest_sell_order(response)
-    buy_order_summary = get_buy_order_summary(response)
-    sell_order_summary = get_sell_order_summary(response)
+    response_body = JSON.parse(response.body)
+
+    steam_data = {
+      highest_buy_order: get_highest_buy_order(response_body),
+      lowest_sell_order: get_lowest_sell_order(response_body),
+      buy_order_number: get_buy_order_summary(response_body),
+      sell_order_number: get_sell_order_summary(response_body)
+    }
     date_time = Time.now.to_s
 
     SteamMarketOrdersDetailsImportJob.async.perform(
       item_nameid,
-      highest_buy_order,
-      lowest_sell_order,
-      buy_order_summary,
-      sell_order_summary,
-      date_time,
+      steam_data,
+      date_time
     )
   end
 
-  def get_highest_buy_order(response : HTTP::Client::Response)
-    result = JSON.parse(response.body)["highest_buy_order"].to_s
+  def get_highest_buy_order(response : JSON::Any)
+    result = response["highest_buy_order"].to_s
     result.empty? ? "0" : result
   end
 
-  def get_lowest_sell_order(response : HTTP::Client::Response)
-    result = JSON.parse(response.body)["lowest_sell_order"].to_s
+  def get_lowest_sell_order(response : JSON::Any)
+    result = response["lowest_sell_order"].to_s
     result.empty? ? "0" : result
   end
 
-  def get_buy_order_summary(response : HTTP::Client::Response)
-    xml = XML.parse_html(JSON.parse(response.body)["buy_order_summary"].to_s)
+  def get_buy_order_summary(response : JSON::Any)
+    xml = XML.parse_html(response["buy_order_summary"].to_s)
     nodes = xml.xpath_nodes("//span[@class='market_commodity_orders_header_promote']")
     nodes.empty? ? "0" : nodes[0].content.to_s
-    # return "0" if nodes.empty?
-    # nodes[0].content.to_s
   end
 
-  def get_sell_order_summary(response : HTTP::Client::Response)
-    xml = XML.parse_html(JSON.parse(response.body)["sell_order_summary"].to_s)
+  def get_sell_order_summary(response : JSON::Any)
+    xml = XML.parse_html(response["sell_order_summary"].to_s)
     nodes = xml.xpath_nodes("//span[@class='market_commodity_orders_header_promote']")
     nodes.empty? ? "0" : nodes[0].content.to_s
-    # return "0" if nodes.empty?
-    # nodes[0].content.to_s
   end
 end

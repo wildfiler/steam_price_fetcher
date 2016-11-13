@@ -10,10 +10,12 @@ class SteamMarketOrdersDetailsImportJob
 
   def perform(
     item_nameid : String,
-    highest_buy_order : String,
-    lowest_sell_order : String,
-    buy_order_summary : String,
-    sell_order_summary : String,
+    steam_data : NamedTuple(
+      highest_buy_order: String,
+      lowest_sell_order: String,
+      buy_order_number: String,
+      sell_order_number: String
+    ),
     date_time : String
   )
     raise "You shall not pass!"
